@@ -206,10 +206,9 @@ This mirrors industry-grade data refresh pipelines with **zero manual steps**.
 
 ### **Clone the repo**
 ```bash
-git clone https://github.com/<your-username>/Retail-Insights-Project.git
+git clone https://github.com/milindthapar/Retail-Insights-Project.git
 
----
-
+```
 ---
 
 ## 11. Business Analyst / Agile Documentation (To Be Added)
