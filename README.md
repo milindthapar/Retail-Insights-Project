@@ -75,7 +75,7 @@ Retail-Insights-Project/
 │   ├── dashboard_screenshots/      # Exported images of each report page
 │
 └── README.md
-
+```
 ---
 
 ## 4. Data Cleaning & Preparation (Python)
