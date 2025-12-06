@@ -1,0 +1,190 @@
+/*******************************************************************************************
+ RETAIL INSIGHTS PROJECT – FULL SQL QUERIES
+ Azure SQL Database
+ Author: Milind Thapar
+ Description:
+     This script contains all analytical SQL queries used in the Retail Insights BI project.
+     Includes KPI calculations, trends, segmentation, category performance, and more.
+*******************************************************************************************/
+
+
+/*******************************************************************************************
+ 1. TOTAL ROW COUNT (Sanity Check)
+*******************************************************************************************/
+SELECT COUNT(*) AS TotalRows
+FROM dbo.superstore_orders;
+
+
+
+/*******************************************************************************************
+ 2. CORE KPIs – TOTAL REVENUE, PROFIT, AOV, DISCOUNT, MARGIN
+*******************************************************************************************/
+SELECT
+    SUM(Sales)  AS TotalRevenue,
+    SUM(Profit) AS TotalProfit,
+    AVG(Sales)  AS AverageOrderValue,
+    AVG(Discount) AS AverageDiscount,
+    SUM(Profit) / NULLIF(SUM(Sales), 0) AS ProfitMargin
+FROM dbo.superstore_orders;
+
+
+
+/*******************************************************************************************
+ 3. MONTHLY SALES & PROFIT TREND (USED FOR FORECASTING)
+*******************************************************************************************/
+SELECT
+    Order_Year,
+    Order_Month,
+    Order_Month_Name,
+    SUM(Sales)  AS MonthlyRevenue,
+    SUM(Profit) AS MonthlyProfit
+FROM dbo.superstore_orders
+GROUP BY
+    Order_Year,
+    Order_Month,
+    Order_Month_Name
+ORDER BY
+    Order_Year,
+    Order_Month;
+
+
+
+/*******************************************************************************************
+ 4. REGIONAL PERFORMANCE (REVENUE, PROFIT, MARGIN)
+*******************************************************************************************/
+SELECT
+    Region,
+    SUM(Sales)  AS TotalRevenue,
+    SUM(Profit) AS TotalProfit,
+    SUM(Profit) / NULLIF(SUM(Sales), 0) AS ProfitMargin
+FROM dbo.superstore_orders
+GROUP BY Region
+ORDER BY TotalRevenue DESC;
+
+
+
+/*******************************************************************************************
+ 5. CATEGORY & SUB-CATEGORY PERFORMANCE
+*******************************************************************************************/
+SELECT
+    Category,
+    Sub_Category,
+    SUM(Sales)    AS TotalRevenue,
+    SUM(Profit)   AS TotalProfit,
+    SUM(Quantity) AS TotalQuantity,
+    SUM(Profit) / NULLIF(SUM(Sales), 0) AS ProfitMargin
+FROM dbo.superstore_orders
+GROUP BY
+    Category,
+    Sub_Category
+ORDER BY
+    TotalRevenue DESC;
+
+
+
+/*******************************************************************************************
+ 6. LOW-MARGIN, HIGH-REVENUE PRODUCT SEGMENTS (PROFIT LEAK IDENTIFICATION)
+*******************************************************************************************/
+SELECT
+    Category,
+    Sub_Category,
+    SUM(Sales)  AS TotalRevenue,
+    SUM(Profit) AS TotalProfit,
+    SUM(Profit) / NULLIF(SUM(Sales), 0) AS ProfitMargin
+FROM dbo.superstore_orders
+GROUP BY
+    Category,
+    Sub_Category
+HAVING
+    SUM(Sales) > 50000       -- adjust threshold as needed
+    AND SUM(Profit) / NULLIF(SUM(Sales), 0) < 0.05   -- <5% margin
+ORDER BY
+    ProfitMargin ASC;
+
+
+
+/*******************************************************************************************
+ 7. DISCOUNT IMPACT ANALYSIS (SALES & PROFIT)
+*******************************************************************************************/
+SELECT
+    Discount,
+    AVG(Sales)  AS AvgSales,
+    AVG(Profit) AS AvgProfit,
+    COUNT(*)    AS NumOrders
+FROM dbo.superstore_orders
+GROUP BY Discount
+ORDER BY Discount;
+
+
+
+/*******************************************************************************************
+ 8. TOP-PERFORMING CUSTOMERS (BY MONETARY VALUE)
+*******************************************************************************************/
+SELECT
+    Customer_ID,
+    Customer_Name,
+    SUM(Sales) AS TotalSales,
+    SUM(Profit) AS TotalProfit,
+    SUM(Sales) / (SELECT SUM(Sales) FROM dbo.superstore_orders) * 100 AS RevenueContributionPct
+FROM dbo.superstore_orders
+GROUP BY Customer_ID, Customer_Name
+ORDER BY TotalSales DESC;
+
+
+
+/*******************************************************************************************
+ 9. RFM SEGMENTATION (STATIC VERSION)
+*******************************************************************************************/
+SELECT
+    Customer_ID,
+    Customer_Name,
+    Recency,
+    Frequency,
+    Monetary,
+    CASE
+        WHEN Recency <= 30  AND Frequency >= 5 AND Monetary >= 1000 THEN 'Champions'
+        WHEN Recency <= 60  AND Frequency >= 3 THEN 'Loyal Customers'
+        WHEN Recency BETWEEN 61 AND 120 THEN 'At Risk'
+        WHEN Recency > 120 THEN 'Lost Customers'
+        ELSE 'Regular'
+    END AS RFM_Segment
+FROM dbo.superstore_orders
+GROUP BY
+    Customer_ID,
+    Customer_Name,
+    Recency,
+    Frequency,
+    Monetary;
+
+
+
+/*******************************************************************************************
+ 10. RFM SEGMENT PERFORMANCE SUMMARY
+*******************************************************************************************/
+SELECT
+    CASE
+        WHEN Recency <= 30  AND Frequency >= 5 AND Monetary >= 1000 THEN 'Champions'
+        WHEN Recency <= 60  AND Frequency >= 3 THEN 'Loyal Customers'
+        WHEN Recency BETWEEN 61 AND 120 THEN 'At Risk'
+        WHEN Recency > 120 THEN 'Lost Customers'
+        ELSE 'Regular'
+    END AS RFM_Segment,
+    COUNT(*) AS NumCustomers,
+    SUM(Sales) AS SegmentRevenue,
+    SUM(Profit) AS SegmentProfit
+FROM dbo.superstore_orders
+GROUP BY
+    CASE
+        WHEN Recency <= 30  AND Frequency >= 5 AND Monetary >= 1000 THEN 'Champions'
+        WHEN Recency <= 60  AND Frequency >= 3 THEN 'Loyal Customers'
+        WHEN Recency BETWEEN 61 AND 120 THEN 'At Risk'
+        WHEN Recency > 120 THEN 'Lost Customers'
+        ELSE 'Regular'
+    END
+ORDER BY SegmentRevenue DESC;
+
+
+
+/*******************************************************************************************
+ END OF SCRIPT
+*******************************************************************************************/

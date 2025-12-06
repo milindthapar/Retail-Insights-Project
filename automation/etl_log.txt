@@ -1,0 +1,51 @@
+2025-11-26 17:20:49,327 - INFO - ETL Job Started
+2025-11-26 17:20:49,355 - ERROR - ETL Job FAILED: 'utf-8' codec can't decode byte 0xa0 in position 2944: invalid start byte
+2025-11-26 17:20:49,356 - INFO - ETL Job Finished.
+
+2025-11-26 17:27:02,605 - INFO - ETL Job Started
+2025-11-26 17:27:02,610 - ERROR - ETL Job FAILED: 'utf-8' codec can't decode byte 0xa0 in position 2944: invalid start byte
+2025-11-26 17:27:02,612 - INFO - ETL Job Finished.
+
+2025-11-26 17:29:55,519 - INFO - ETL Job Started
+2025-11-26 17:29:55,525 - ERROR - ETL Job FAILED: 'utf-8' codec can't decode byte 0xa0 in position 2944: invalid start byte
+2025-11-26 17:29:55,525 - INFO - ETL Job Finished.
+
+2025-11-26 17:37:55,399 - INFO - ETL Job Started
+2025-11-26 17:37:55,399 - INFO - Loading CSV from: C:\Users\thapa\OneDrive\Desktop\Retail-Insights_Project\data\superstore_clean.csv
+2025-11-26 17:37:55,494 - INFO - Raw Data Loaded: 9994 rows.
+2025-11-26 17:37:55,553 - INFO - Data Cleaned: 9994 rows remain after basic cleaning.
+2025-11-26 17:37:55,562 - INFO - Columns aligned to SQL table schema.
+2025-11-26 17:37:55,562 - INFO - Connecting to Azure SQL...
+2025-11-26 17:37:55,574 - ERROR - ETL Job FAILED: ('IM002', '[IM002] [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified (0) (SQLDriverConnect)')
+2025-11-26 17:37:55,574 - INFO - ETL Job Finished.
+
+2025-11-26 17:45:04,364 - INFO - ETL Job Started
+2025-11-26 17:45:04,365 - INFO - Loading CSV from: C:\Users\thapa\OneDrive\Desktop\Retail-Insights_Project\data\superstore_clean.csv
+2025-11-26 17:45:04,439 - INFO - Raw Data Loaded: 9994 rows.
+2025-11-26 17:45:04,481 - INFO - Data Cleaned: 9994 rows remain after basic cleaning.
+2025-11-26 17:45:04,485 - INFO - Columns aligned to SQL table schema.
+2025-11-26 17:45:04,486 - INFO - Connecting to Azure SQL...
+2025-11-26 17:45:19,762 - ERROR - ETL Job FAILED: ('HYT00', '[HYT00] [Microsoft][ODBC SQL Server Driver]Login timeout expired (0) (SQLDriverConnect)')
+2025-11-26 17:45:19,763 - INFO - ETL Job Finished.
+
+2025-11-26 18:58:36,284 - INFO - ETL Job Started
+2025-11-26 18:58:36,286 - INFO - Loading CSV from: C:\Users\thapa\OneDrive\Desktop\Retail-Insights_Project\data\superstore_clean.csv
+2025-11-26 18:58:36,384 - INFO - Raw Data Loaded: 9994 rows.
+2025-11-26 18:58:36,451 - INFO - Data Cleaned: 9994 rows remain after basic cleaning.
+2025-11-26 18:58:36,459 - INFO - Columns aligned to SQL table schema.
+2025-11-26 18:58:36,459 - INFO - Connecting to Azure SQL...
+2025-11-26 18:58:51,638 - ERROR - ETL Job FAILED: ('HYT00', '[HYT00] [Microsoft][ODBC SQL Server Driver]Login timeout expired (0) (SQLDriverConnect)')
+2025-11-26 18:58:51,639 - INFO - ETL Job Finished.
+
+2025-11-26 19:13:01,101 - INFO - ETL Job Started
+2025-11-26 19:13:01,102 - INFO - Loading CSV from: C:\Users\thapa\OneDrive\Desktop\Retail-Insights_Project\data\superstore_clean.csv
+2025-11-26 19:13:01,198 - INFO - Raw Data Loaded: 9994 rows.
+2025-11-26 19:13:01,266 - INFO - Data Cleaned: 9994 rows remain after basic cleaning.
+2025-11-26 19:13:01,273 - INFO - Columns aligned to SQL table schema.
+2025-11-26 19:13:01,273 - INFO - Connecting to Azure SQL...
+2025-11-26 19:13:01,791 - INFO - Connected to Azure SQL successfully.
+2025-11-26 19:13:01,956 - INFO - Old data truncated from table superstore_orders.
+2025-11-26 19:13:01,956 - INFO - Starting row insert into Azure SQL...
+2025-11-26 19:15:30,309 - INFO - New data uploaded successfully.
+2025-11-26 19:15:30,310 - INFO - ETL Job Finished.
+
